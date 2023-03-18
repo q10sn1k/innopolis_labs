@@ -1,8 +1,6 @@
-# импортируем библиотеки
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-# создаем объекты SQLAlchemy и Migrate
 db = SQLAlchemy()
 
 
@@ -16,8 +14,13 @@ def create_app():
     db.init_app(app)
 
     # регистрируем маршруты
-    from app.routes import user_routes, order_routes
+    from .routes import bp as main_routes
+    app.register_blueprint(main_routes)
+
+    from .routes import user_routes
     app.register_blueprint(user_routes.bp)
+
+    from .routes import order_routes
     app.register_blueprint(order_routes.bp)
 
     return app
